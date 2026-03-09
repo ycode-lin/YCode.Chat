@@ -23,8 +23,8 @@ function readEnv(name: string): string | undefined {
 
 export const LLM_CONFIG: LlmConfig = {
   modelId: readEnv("DEFAULT_MODEL_ID") ?? DEFAULT_LLM_CONFIG.modelId,
-  openaiApiKey: readEnv("OPENAI_API_KEY") ?? DEFAULT_LLM_CONFIG.openaiApiKey,
-  openaiBaseURL: readEnv("OPENAI_BASE_URL") ?? DEFAULT_LLM_CONFIG.openaiBaseURL,
+  openaiApiKey: readEnv("DEFAULT_API_KEY") ?? DEFAULT_LLM_CONFIG.openaiApiKey,
+  openaiBaseURL: readEnv("DEFAULT_BASE_URL") ?? DEFAULT_LLM_CONFIG.openaiBaseURL,
 };
 
 export function getDefaultModelId(): ModelId {
