@@ -66,29 +66,15 @@ cd ..
 
 ## LLM 配置说明
 
-这里要特别说明一下，当前仓库代码默认不是优先读取 `.env`，而是优先读取 `server/src/config/llm.ts` 中的本地配置。
+当前后端的 `LLM` 配置只从环境变量读取，不再支持在 `server/src/config/llm.ts` 里写本地常量配置。
 
-`server/src/config/llm.ts` 里有这一项：
-
-```ts
-const CONFIG_SOURCE: "local" | "env" = "local";
-```
-
-这意味着当前代码默认使用 `LOCAL_LLM_CONFIG`。
-
-如果你想改成通过 `.env` 驱动，需要把它改成：
-
-```ts
-const CONFIG_SOURCE: "local" | "env" = "env";
-```
-
-然后再使用：
+先复制示例文件：
 
 ```bash
 cp server/.env.example server/.env
 ```
 
-可用环境变量如下：
+然后按需填写这些变量：
 
 | 变量名 | 说明 |
 | --- | --- |
@@ -97,6 +83,8 @@ cp server/.env.example server/.env
 | `OPENAI_API_KEY` | OpenAI 兼容接口 Key |
 | `OPENAI_BASE_URL` | OpenAI 兼容接口地址 |
 | `MCP_SERVERS` | 默认 MCP 配置，要求是合法 JSON 字符串 |
+
+如果未提供某个变量，服务端会使用代码中的安全默认值，例如默认模型会回退到 `openai:gpt-4o-mini`。
 
 ## 启动开发环境
 
@@ -224,6 +212,5 @@ MCP_SERVERS={"math":{"transport":"stdio","command":"npx","args":["-y","@modelcon
 如果按当前项目状态继续做，比较贴合的下一步是：
 
 - 把 MCP 配置从“进程内存”改成文件或数据库持久化。
-- 把 `LLM` 配置从源码里的本地常量切到更安全的环境变量方案。
 - 增加测试和异常场景覆盖，尤其是 MCP 连接失败、审批中断、恢复执行。
 - 增加部署方式，例如 Docker 或 CI/CD。
